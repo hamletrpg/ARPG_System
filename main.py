@@ -51,9 +51,9 @@ class Game:
         # self.screen.blit(, (0, 0))
         self.screen.fill(BLACK)
         self.all_sprites.draw(self.screen)
-        self.screen.blit(self.player.rot_image, self.player.rot_image_rect.topleft)
+        self.player.rotate_image()
+
         self.draw_grid()
-        self.player.update()
         pg.display.flip()
 
 g = Game()

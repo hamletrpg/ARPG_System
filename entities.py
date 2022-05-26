@@ -37,17 +37,16 @@ class Player(Character):
         if keys[pg.K_a]:
             self.rect.x -= 1
 
+    def rotate_image(self):
         mx, my = pg.mouse.get_pos()
         dx, dy = mx - self.rect.centerx, my - self.rect.centery
         angle = math.degrees(math.atan2(-dy, dx)) - self.correction_angle
 
         self.rot_image = pg.transform.rotate(self.image, angle)
         self.rot_image_rect = self.rot_image.get_rect(center=self.rect.center)
-
+        self.game.screen.blit(self.rot_image, self.rot_image_rect.topleft)
 
 
 class Enemy(Character):
     def __init__(self, game, name, x, y, w, h, color, atk, hp):
         super().__init__(game, name, x, y, w, h, color, atk, hp)
-
-
