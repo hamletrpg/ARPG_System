@@ -41,10 +41,9 @@ class Player(Character):
         dx, dy = mx - self.rect.centerx, my - self.rect.centery
         angle = math.degrees(math.atan2(-dy, dx)) - self.correction_angle
 
-        rot_image = pg.transform.rotate(self.image, angle)
-        rot_image_rect = rot_image.get_rect(center=self.rect.center)
-        self.game.screen.blit(rot_image, rot_image_rect.topleft)
-        pg.display.flip()
+        self.rot_image = pg.transform.rotate(self.image, angle)
+        self.rot_image_rect = self.rot_image.get_rect(center=self.rect.center)
+
 
 
 class Enemy(Character):
