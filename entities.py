@@ -4,7 +4,7 @@ import os
 import pygame as pg
 
 class Character(pg.sprite.Sprite):
-    def __init__(self, game, name, x, y, w, h, color, atk, hp):
+    def __init__(self, game, name, x, y, w, h, atk, hp):
         pg.sprite.Sprite.__init__(self)
         self.game = game
         self.atk = atk
@@ -12,18 +12,17 @@ class Character(pg.sprite.Sprite):
         self.w = w
         self.h = h
         self.name = name
-        self.color = color
         self.image = pg.Surface((w, h))
-        self.image.fill(self.color)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
 
 
+
 class Player(Character):
-    def __init__(self, game, name, x, y, w, h, color, atk, hp):
-        super().__init__(game, name, x, y, w, h, color, atk, hp)
-        self.image = pg.image.load(os.path.join("Character1.png")).convert_alpha()
+    def __init__(self, game, name, x, y, w, h, atk, hp):
+        super().__init__(game, name, x, y, w, h, atk, hp)
+        # self.image = pg.image.load(os.path.join("Character1.png")).convert_alpha()
         self.correction_angle = 90
 
     def update(self):
@@ -42,9 +41,10 @@ class Player(Character):
         dx, dy = mx - self.rect.centerx, my - self.rect.centery
         angle = math.degrees(math.atan2(-dy, dx)) - self.correction_angle
 
-        self.rot_image = pg.transform.rotate(self.image, angle)
+        self.rot_image = pg.transform.rotate(pg.image.load(os.path.join("Character1.png")).convert_alpha(), angle)
         self.rot_image_rect = self.rot_image.get_rect(center=self.rect.center)
         self.game.screen.blit(self.rot_image, self.rot_image_rect.topleft)
+
 
 
 class Enemy(Character):

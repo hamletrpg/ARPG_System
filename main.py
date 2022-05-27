@@ -18,6 +18,7 @@ class Game:
         self.player = Player(self, *PLAYER_ATT_1.values())
 
 
+
         self.all_sprites.add(self.player)
 
         self.run()
@@ -52,6 +53,7 @@ class Game:
         self.screen.fill(BLACK)
         self.all_sprites.draw(self.screen)
         self.player.rotate_image()
+
 
         self.draw_grid()
         pg.display.flip()

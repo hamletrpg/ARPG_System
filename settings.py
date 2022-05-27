@@ -24,7 +24,6 @@ PLAYER_ATT_1 = {
     "y": 193,
     "w": 32,
     "h": 32,
-    "color": GREEN,
     "atk": 25,
     "hp": 100
 }
