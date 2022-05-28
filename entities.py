@@ -1,6 +1,6 @@
 import math
 import os
-
+from weapon import Weapon
 import pygame as pg
 
 class Character(pg.sprite.Sprite):
@@ -16,6 +16,7 @@ class Character(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.weapon = Weapon(0, 0, 0, 0, 0)
 
 
 
@@ -24,6 +25,7 @@ class Player(Character):
         super().__init__(game, name, x, y, w, h, atk, hp)
         # self.image = pg.image.load(os.path.join("Character1.png")).convert_alpha()
         self.correction_angle = 90
+        self.angle = 0
 
     def update(self):
         keys = pg.key.get_pressed()  # checking pressed keys
@@ -36,16 +38,29 @@ class Player(Character):
         if keys[pg.K_a]:
             self.rect.x -= 1
 
-    def rotate_image(self):
+    def get_angle(self):
         mx, my = pg.mouse.get_pos()
         dx, dy = mx - self.rect.centerx, my - self.rect.centery
-        angle = math.degrees(math.atan2(-dy, dx)) - self.correction_angle
+        self.angle = math.degrees(math.atan2(-dy, dx)) - self.correction_angle
+        return int(self.angle)
 
-        self.rot_image = pg.transform.rotate(pg.image.load(os.path.join("Character1.png")).convert_alpha(), angle)
+    def rotate_image(self):
+
+        self.rot_image = pg.transform.rotate(pg.image.load(os.path.join("Character1.png")).convert_alpha(), self.get_angle())
         self.rot_image_rect = self.rot_image.get_rect(center=self.rect.center)
         self.game.screen.blit(self.rot_image, self.rot_image_rect.topleft)
 
 
+    def use_weapon(self, event):
+        if event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-36, 36):
+            print("attack top")
+        elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-136, -57):
+            print("attack right")
+        elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-222, -137):
+            print("attack bottom")
+        elif event.type == pg.MOUSEBUTTONDOWN and (self.get_angle() in range(52, 90) or self.get_angle() in range(-269, -237)):
+            print("attack left")
+        print(self.get_angle())
 
 class Enemy(Character):
     def __init__(self, game, name, x, y, w, h, color, atk, hp):

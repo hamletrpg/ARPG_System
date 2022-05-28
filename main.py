@@ -2,6 +2,7 @@ import pygame as pg
 import os
 from settings import *
 from entities import Player
+from weapon import Weapon
 
 class Game:
     def __init__(self):
@@ -16,10 +17,10 @@ class Game:
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.player = Player(self, *PLAYER_ATT_1.values())
-
-
+        self.weapon = Weapon(32, 32, 32, 32, 32)
 
         self.all_sprites.add(self.player)
+        self.all_sprites.add(self.weapon)
 
         self.run()
 
@@ -39,7 +40,7 @@ class Game:
             if event.type == pg.QUIT:
                 self.playing = False
             self.running = False
-
+            self.player.use_weapon(event)
     def draw_grid(self):
         # Vertical lines
         for x in range(0, WIDTH, TILEZISE):
