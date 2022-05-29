@@ -19,7 +19,6 @@ class Character(pg.sprite.Sprite):
         self.weapon = Weapon(0, 0, 0, 0, 0)
 
 
-
 class Player(Character):
     def __init__(self, game, name, x, y, w, h, atk, hp):
         super().__init__(game, name, x, y, w, h, atk, hp)
@@ -53,14 +52,17 @@ class Player(Character):
 
     def use_weapon(self, event):
         if event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-36, 36):
-            print("attack top")
+            self.weapon = Weapon(self.rect.x, self.rect.y - 32, 32, 32, 20)
+            self.game.all_sprites.add(self.weapon)
         elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-136, -57):
-            print("attack right")
+            self.weapon = Weapon(self.rect.x + 32, self.rect.y, 32, 32, 20)
+            self.game.all_sprites.add(self.weapon)
         elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-222, -137):
-            print("attack bottom")
+            self.weapon = Weapon(self.rect.x, self.rect.y + 32, 32, 32, 20)
+            self.game.all_sprites.add(self.weapon)
         elif event.type == pg.MOUSEBUTTONDOWN and (self.get_angle() in range(52, 90) or self.get_angle() in range(-269, -237)):
-            print("attack left")
-        print(self.get_angle())
+            self.weapon = Weapon(self.rect.x - 32, self.rect.y, 32, 32, 20)
+            self.game.all_sprites.add(self.weapon)
 
 class Enemy(Character):
     def __init__(self, game, name, x, y, w, h, color, atk, hp):

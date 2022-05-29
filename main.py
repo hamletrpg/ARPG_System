@@ -1,8 +1,6 @@
 import pygame as pg
-import os
 from settings import *
 from entities import Player
-from weapon import Weapon
 
 class Game:
     def __init__(self):
@@ -17,10 +15,11 @@ class Game:
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.player = Player(self, *PLAYER_ATT_1.values())
-        self.weapon = Weapon(32, 32, 32, 32, 32)
+
 
         self.all_sprites.add(self.player)
-        self.all_sprites.add(self.weapon)
+        self.all_sprites.add(self.player.weapon)
+
 
         self.run()
 
@@ -45,7 +44,6 @@ class Game:
         # Vertical lines
         for x in range(0, WIDTH, TILEZISE):
             pg.draw.line(self.screen, YELLOW, (x, 0), (x, HEIGHT))
-
         for y in range(0, HEIGHT, TILEZISE):
             pg.draw.line(self.screen, YELLOW, (0, y), (WIDTH, y))
 
@@ -54,8 +52,6 @@ class Game:
         self.screen.fill(BLACK)
         self.all_sprites.draw(self.screen)
         self.player.rotate_image()
-
-
         self.draw_grid()
         pg.display.flip()
 
