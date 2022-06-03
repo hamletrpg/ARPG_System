@@ -2,6 +2,7 @@ import math
 import os
 from weapon import Weapon
 import pygame as pg
+import settings
 
 class Character(pg.sprite.Sprite):
     def __init__(self, game, name, x, y, w, h, atk, hp):
@@ -16,7 +17,7 @@ class Character(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.weapon = Weapon(0, 0, 0, 0, 0)
+        self.weapon = Weapon(self.game, 0, 0, 0, 0, 0)
 
 
 class Player(Character):
@@ -52,18 +53,20 @@ class Player(Character):
 
     def use_weapon(self, event):
         if event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-36, 36):
-            self.weapon = Weapon(self.rect.x, self.rect.y - 32, 32, 32, 20)
+            self.weapon = Weapon(self.game, self.rect.x, self.rect.y - 32, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
+
         elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-136, -57):
-            self.weapon = Weapon(self.rect.x + 32, self.rect.y, 32, 32, 20)
+            self.weapon = Weapon(self.game, self.rect.x + 32, self.rect.y, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
         elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-222, -137):
-            self.weapon = Weapon(self.rect.x, self.rect.y + 32, 32, 32, 20)
+            self.weapon = Weapon(self.game, self.rect.x, self.rect.y + 32, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
         elif event.type == pg.MOUSEBUTTONDOWN and (self.get_angle() in range(52, 90) or self.get_angle() in range(-269, -237)):
-            self.weapon = Weapon(self.rect.x - 32, self.rect.y, 32, 32, 20)
+            self.weapon = Weapon(self.game, self.rect.x - 32, self.rect.y, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
 
 class Enemy(Character):
-    def __init__(self, game, name, x, y, w, h, color, atk, hp):
-        super().__init__(game, name, x, y, w, h, color, atk, hp)
+    def __init__(self, game, name, x, y, w, h, atk, hp):
+        super().__init__(game, name, x, y, w, h, atk, hp)
+        self.image.fill(settings.GREEN)

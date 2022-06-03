@@ -1,6 +1,6 @@
 import pygame as pg
 from settings import *
-from entities import Player
+from entities import Player, Enemy
 
 class Game:
     def __init__(self):
@@ -15,8 +15,9 @@ class Game:
     def new(self):
         self.all_sprites = pg.sprite.Group()
         self.player = Player(self, *PLAYER_ATT_1.values())
+        self.enemy = Enemy(self, *ENEMY_ATT_1.values())
 
-
+        self.all_sprites.add(self.enemy)
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.player.weapon)
 
@@ -33,6 +34,7 @@ class Game:
 
     def update(self):
         self.player.update()
+        self.player.weapon.update()
 
     def event(self):
         for event in pg.event.get():
