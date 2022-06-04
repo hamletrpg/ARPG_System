@@ -19,7 +19,8 @@ class Game:
 
         self.all_sprites.add(self.enemy)
         self.all_sprites.add(self.player)
-        self.all_sprites.add(self.player.weapon)
+        if self.player.weapon:
+            self.all_sprites.add(self.player.weapon)
 
 
         self.run()
@@ -34,7 +35,8 @@ class Game:
 
     def update(self):
         self.player.update()
-        self.player.weapon.update()
+        if self.player.weapon:
+            self.player.weapon.update()
 
     def event(self):
         for event in pg.event.get():

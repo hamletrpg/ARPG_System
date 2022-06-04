@@ -17,7 +17,7 @@ class Character(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-        self.weapon = Weapon(self.game, 0, 0, 0, 0, 0)
+        self.weapon = None
 
 
 class Player(Character):
@@ -28,6 +28,7 @@ class Player(Character):
         self.angle = 0
 
     def update(self):
+        self.basic_attack(self.game.enemy)
         keys = pg.key.get_pressed()  # checking pressed keys
         if keys[pg.K_w]:
             self.rect.y -= 1
@@ -55,7 +56,6 @@ class Player(Character):
         if event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-36, 36):
             self.weapon = Weapon(self.game, self.rect.x, self.rect.y - 32, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
-
         elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-136, -57):
             self.weapon = Weapon(self.game, self.rect.x + 32, self.rect.y, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
@@ -65,6 +65,13 @@ class Player(Character):
         elif event.type == pg.MOUSEBUTTONDOWN and (self.get_angle() in range(52, 90) or self.get_angle() in range(-269, -237)):
             self.weapon = Weapon(self.game, self.rect.x - 32, self.rect.y, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
+
+    def basic_attack(self, target):
+        if self.weapon:
+            if self.weapon.rect.colliderect(target):
+                raw_damage = target.hp - self.atk
+                target.hp = raw_damage
+
 
 class Enemy(Character):
     def __init__(self, game, name, x, y, w, h, atk, hp):

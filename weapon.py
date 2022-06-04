@@ -21,4 +21,3 @@ class Weapon(pg.sprite.Sprite):
         if self.time is not None:
             if pg.time.get_ticks() - self.time >= 300:
                 self.game.all_sprites.remove(self)
-
