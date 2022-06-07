@@ -28,7 +28,7 @@ class Player(Character):
         self.angle = 0
 
     def update(self):
-        self.basic_attack(self.game.enemy)
+
         keys = pg.key.get_pressed()  # checking pressed keys
         if keys[pg.K_w]:
             self.rect.y -= 1
@@ -38,6 +38,10 @@ class Player(Character):
             self.rect.x += 1
         if keys[pg.K_a]:
             self.rect.x -= 1
+
+        self.basic_attack(self.game.enemy)
+        if self.weapon:
+            self.weapon.update()
 
     def get_angle(self):
         mx, my = pg.mouse.get_pos()
@@ -71,6 +75,7 @@ class Player(Character):
             if self.weapon.rect.colliderect(target):
                 raw_damage = target.hp - self.atk
                 target.hp = raw_damage
+                print("aye")
 
 
 class Enemy(Character):

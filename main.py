@@ -35,8 +35,6 @@ class Game:
 
     def update(self):
         self.player.update()
-        if self.player.weapon:
-            self.player.weapon.update()
 
     def event(self):
         for event in pg.event.get():
