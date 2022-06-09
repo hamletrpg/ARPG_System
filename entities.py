@@ -39,7 +39,7 @@ class Player(Character):
         if keys[pg.K_a]:
             self.rect.x -= 1
 
-        self.basic_attack(self.game.enemy)
+
         if self.weapon:
             self.weapon.update()
 
@@ -60,22 +60,26 @@ class Player(Character):
         if event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-36, 36):
             self.weapon = Weapon(self.game, self.rect.x, self.rect.y - 32, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
+            self.basic_attack(self.game.enemy)
         elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-136, -57):
             self.weapon = Weapon(self.game, self.rect.x + 32, self.rect.y, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
+            self.basic_attack(self.game.enemy)
         elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-222, -137):
             self.weapon = Weapon(self.game, self.rect.x, self.rect.y + 32, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
+            self.basic_attack(self.game.enemy)
         elif event.type == pg.MOUSEBUTTONDOWN and (self.get_angle() in range(52, 90) or self.get_angle() in range(-269, -237)):
             self.weapon = Weapon(self.game, self.rect.x - 32, self.rect.y, 32, 32, 20)
             self.game.all_sprites.add(self.weapon)
+            self.basic_attack(self.game.enemy)
 
     def basic_attack(self, target):
         if self.weapon:
             if self.weapon.rect.colliderect(target):
                 raw_damage = target.hp - self.atk
                 target.hp = raw_damage
-                print("aye")
+                print(target.hp)
 
 
 class Enemy(Character):

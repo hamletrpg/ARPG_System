@@ -19,8 +19,6 @@ class Game:
 
         self.all_sprites.add(self.enemy)
         self.all_sprites.add(self.player)
-        if self.player.weapon:
-            self.all_sprites.add(self.player.weapon)
 
 
         self.run()

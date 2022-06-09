@@ -11,7 +11,6 @@ class Weapon(pg.sprite.Sprite):
         self.w = w
         self.h = h
         self.image = pg.Surface((w, h))
-        self.image.fill(GREEN)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -22,4 +21,3 @@ class Weapon(pg.sprite.Sprite):
             if pg.time.get_ticks() - self.time >= 100:
                 # self.game.all_sprites.remove(self)
                 self.kill()
-                self.game.player.weapon = None
