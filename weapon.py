@@ -1,5 +1,6 @@
 import pygame as pg
 from settings import *
+import os
 
 class Weapon(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h, atk):
@@ -10,7 +11,7 @@ class Weapon(pg.sprite.Sprite):
         self.y = y
         self.w = w
         self.h = h
-        self.image = pg.Surface((w, h))
+        self.image = pg.image.load(os.path.join("sword.png")).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y

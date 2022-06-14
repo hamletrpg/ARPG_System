@@ -33,6 +33,7 @@ class Game:
 
     def update(self):
         self.player.update()
+        self.enemy.update()
 
     def event(self):
         for event in pg.event.get():

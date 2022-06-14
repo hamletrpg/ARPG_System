@@ -3,6 +3,10 @@ import os
 from weapon import Weapon
 import pygame as pg
 import settings
+from data_work import load_image
+from settings import E_PIC_DICTIONARY
+
+vec = pg.math.Vector2
 
 class Character(pg.sprite.Sprite):
     def __init__(self, game, name, x, y, w, h, atk, hp):
@@ -18,6 +22,10 @@ class Character(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.weapon = None
+
+    def check_if_alive(self):
+        if self.hp <= 0:
+            self.kill()
 
 
 class Player(Character):
@@ -42,6 +50,8 @@ class Player(Character):
 
         if self.weapon:
             self.weapon.update()
+
+        self.check_if_alive()
 
     def get_angle(self):
         mx, my = pg.mouse.get_pos()
@@ -85,4 +95,41 @@ class Player(Character):
 class Enemy(Character):
     def __init__(self, game, name, x, y, w, h, atk, hp):
         super().__init__(game, name, x, y, w, h, atk, hp)
-        self.image.fill(settings.GREEN)
+        self.index = 0
+        self.idle = []
+        self.load_images()
+        self.elapsed = 0
+        self.speed = 1.5
+
+
+    def load_images(self):
+        for dirr, values in E_PIC_DICTIONARY.items():
+            for value in values:
+                if dirr == "Monster":
+                    self.idle.append(load_image(self, dirr, value))
+
+    def animation(self):
+        now = pg.time.get_ticks()
+        if now - self.elapsed > 250:
+            self.elapsed = now
+            self.index += 1
+            try:
+                if self.index >= len(self.idle):
+                    self.index = 0
+                self.image = self.idle[self.index]
+            except IndexError:
+                self.index = 0
+        self.image.set_colorkey(settings.BLACK)
+
+    def update(self):
+        self.check_if_alive()
+        self.animation()
+        if self.alive():
+            self.move_towards_player(self.game.player)
+
+    def move_towards_player(self, player):
+        dirvect = vec(player.rect.x - self.rect.x,
+                                      player.rect.y - self.rect.y)
+        dirvect.normalize()
+        dirvect.scale_to_length(self.speed)
+        self.rect.move_ip(dirvect)

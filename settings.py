@@ -37,3 +37,7 @@ ENEMY_ATT_1 = {
     "atk": 25,
     "hp": 100
 }
+
+E_PIC_DICTIONARY = {
+    "Monster": []
+}
