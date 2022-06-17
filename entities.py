@@ -8,6 +8,11 @@ from settings import E_PIC_DICTIONARY
 
 vec = pg.math.Vector2
 
+# class HealthBar(pg.sprite.Sprite):
+#     def __init__(self):
+#         pg.sprite.Sprite.__init__(self))
+
+
 class Character(pg.sprite.Sprite):
     def __init__(self, game, name, x, y, w, h, atk, hp):
         pg.sprite.Sprite.__init__(self)
@@ -22,10 +27,19 @@ class Character(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.weapon = None
+        self.max_health = 100
 
     def check_if_alive(self):
+        self.draw_hp(self.game.screen)
         if self.hp <= 0:
             self.kill()
+
+    def draw_hp(self, window):
+        pg.draw.rect(window, (255, 0, 0),
+                         (self.rect.x, self.rect.y + self.image.get_height() + 10, self.image.get_width(), 10))
+        pg.draw.rect(window, (0, 255, 0), (
+        self.rect.x, self.rect.y + self.image.get_height() + 10, self.image.get_width() * (self.hp / self.max_health),
+        10))
 
 
 class Player(Character):
@@ -47,7 +61,6 @@ class Player(Character):
         if keys[pg.K_a]:
             self.rect.x -= 1
 
-
         if self.weapon:
             self.weapon.update()
 
@@ -68,19 +81,23 @@ class Player(Character):
 
     def use_weapon(self, event):
         if event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-36, 36):
-            self.weapon = Weapon(self.game, self.rect.x, self.rect.y - 32, 32, 32, 20)
+            self.weapon = Weapon(self.game, self.rect.x, self.rect.y - 32, 32, 32)
+            self.weapon.image = pg.transform.rotate(pg.image.load(os.path.join("sword.png")).convert_alpha(), 0)
             self.game.all_sprites.add(self.weapon)
             self.basic_attack(self.game.enemy)
         elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-136, -57):
-            self.weapon = Weapon(self.game, self.rect.x + 32, self.rect.y, 32, 32, 20)
+            self.weapon = Weapon(self.game, self.rect.x + 32, self.rect.y, 32, 32)
+            self.weapon.image = pg.transform.rotate(pg.image.load(os.path.join("sword.png")).convert_alpha(), 270)
             self.game.all_sprites.add(self.weapon)
             self.basic_attack(self.game.enemy)
         elif event.type == pg.MOUSEBUTTONDOWN and self.get_angle() in range(-222, -137):
-            self.weapon = Weapon(self.game, self.rect.x, self.rect.y + 32, 32, 32, 20)
+            self.weapon = Weapon(self.game, self.rect.x, self.rect.y + 32, 32, 32)
+            self.weapon.image = pg.transform.rotate(pg.image.load(os.path.join("sword.png")).convert_alpha(), 180)
             self.game.all_sprites.add(self.weapon)
             self.basic_attack(self.game.enemy)
         elif event.type == pg.MOUSEBUTTONDOWN and (self.get_angle() in range(52, 90) or self.get_angle() in range(-269, -237)):
-            self.weapon = Weapon(self.game, self.rect.x - 32, self.rect.y, 32, 32, 20)
+            self.weapon = Weapon(self.game, self.rect.x - 32, self.rect.y, 32, 32)
+            self.weapon.image = pg.transform.rotate(pg.image.load(os.path.join("sword.png")).convert_alpha(), 90)
             self.game.all_sprites.add(self.weapon)
             self.basic_attack(self.game.enemy)
 
@@ -89,7 +106,6 @@ class Player(Character):
             if self.weapon.rect.colliderect(target):
                 raw_damage = target.hp - self.atk
                 target.hp = raw_damage
-                print(target.hp)
 
 
 class Enemy(Character):
@@ -99,7 +115,7 @@ class Enemy(Character):
         self.idle = []
         self.load_images()
         self.elapsed = 0
-        self.speed = 1.5
+        self.speed = 0
 
 
     def load_images(self):
@@ -130,6 +146,11 @@ class Enemy(Character):
     def move_towards_player(self, player):
         dirvect = vec(player.rect.x - self.rect.x,
                                       player.rect.y - self.rect.y)
-        dirvect.normalize()
-        dirvect.scale_to_length(self.speed)
-        self.rect.move_ip(dirvect)
+        if dirvect.length() > 0:
+            dirvect.normalize()
+            dirvect.scale_to_length(self.speed)
+            self.rect.move_ip(dirvect)
+        else:
+            self.rect.x -= 32
+            self.rect.y -= 32
+

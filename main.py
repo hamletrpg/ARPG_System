@@ -41,6 +41,7 @@ class Game:
                 self.playing = False
             self.running = False
             self.player.use_weapon(event)
+
     def draw_grid(self):
         # Vertical lines
         for x in range(0, WIDTH, TILEZISE):
@@ -53,7 +54,7 @@ class Game:
         self.screen.fill(BLACK)
         self.all_sprites.draw(self.screen)
         self.player.rotate_image()
-        self.draw_grid()
+        # self.draw_grid()
         pg.display.flip()
 
 g = Game()
