@@ -8,11 +8,6 @@ from settings import E_PIC_DICTIONARY
 
 vec = pg.math.Vector2
 
-# class HealthBar(pg.sprite.Sprite):
-#     def __init__(self):
-#         pg.sprite.Sprite.__init__(self))
-
-
 class Character(pg.sprite.Sprite):
     def __init__(self, game, name, x, y, w, h, atk, hp):
         pg.sprite.Sprite.__init__(self)
