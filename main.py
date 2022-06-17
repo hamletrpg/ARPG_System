@@ -10,7 +10,6 @@ class Game:
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         self.running = True
-        self.generic_font = pg.font.SysFont(FRONT_NAME, FONT_SIZE)
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
@@ -40,21 +39,11 @@ class Game:
             if event.type == pg.QUIT:
                 self.playing = False
             self.running = False
-            self.player.use_weapon(event)
-
-    def draw_grid(self):
-        # Vertical lines
-        for x in range(0, WIDTH, TILEZISE):
-            pg.draw.line(self.screen, YELLOW, (x, 0), (x, HEIGHT))
-        for y in range(0, HEIGHT, TILEZISE):
-            pg.draw.line(self.screen, YELLOW, (0, y), (WIDTH, y))
 
     def draw(self):
-        # self.screen.blit(, (0, 0))
         self.screen.fill(BLACK)
         self.all_sprites.draw(self.screen)
         self.player.rotate_image()
-        # self.draw_grid()
         pg.display.flip()
 
 g = Game()

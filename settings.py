@@ -2,19 +2,11 @@ TITLE = "ARPG Battle System"
 WIDTH = 704
 HEIGHT = 480
 FPS = 60
-FRONT_NAME = 'comicsans'
-FONT_SIZE = 24
 
-NAME = "Clodu"
+NAME = "Cloud"
 
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
 GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
-LIGHTBLUE = (0, 155, 155)
-LIGHTYELLOW = (255,255,102)
+BLACK = (0, 0, 0)
 
 TILEZISE = 32
 

@@ -18,34 +18,25 @@ class Character(pg.sprite.Sprite):
         self.h = h
         self.name = name
         self.image = pg.Surface((w, h))
+        self.image.set_colorkey(settings.BLACK)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
         self.weapon = None
-        self.max_health = 100
 
     def check_if_alive(self):
         self.draw_hp(self.game.screen)
         if self.hp <= 0:
             self.kill()
 
-    def draw_hp(self, window):
-        pg.draw.rect(window, (255, 0, 0),
-                         (self.rect.x, self.rect.y + self.image.get_height() + 10, self.image.get_width(), 10))
-        pg.draw.rect(window, (0, 255, 0), (
-        self.rect.x, self.rect.y + self.image.get_height() + 10, self.image.get_width() * (self.hp / self.max_health),
-        10))
-
 
 class Player(Character):
     def __init__(self, game, name, x, y, w, h, atk, hp):
         super().__init__(game, name, x, y, w, h, atk, hp)
-        # self.image = pg.image.load(os.path.join("Character1.png")).convert_alpha()
         self.correction_angle = 90
         self.angle = 0
 
     def update(self):
-
         keys = pg.key.get_pressed()  # checking pressed keys
         if keys[pg.K_w]:
             self.rect.y -= 1
@@ -70,6 +61,7 @@ class Player(Character):
     def rotate_image(self):
 
         self.rot_image = pg.transform.rotate(pg.image.load(os.path.join("Character1.png")).convert_alpha(), self.get_angle())
+
         self.rot_image_rect = self.rot_image.get_rect(center=self.rect.center)
         self.game.screen.blit(self.rot_image, self.rot_image_rect.topleft)
 
