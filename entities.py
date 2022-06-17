@@ -25,7 +25,6 @@ class Character(pg.sprite.Sprite):
         self.weapon = None
 
     def check_if_alive(self):
-        self.draw_hp(self.game.screen)
         if self.hp <= 0:
             self.kill()
 
@@ -34,7 +33,6 @@ class Player(Character):
     def __init__(self, game, name, x, y, w, h, atk, hp):
         super().__init__(game, name, x, y, w, h, atk, hp)
         self.correction_angle = 90
-        self.angle = 0
 
     def update(self):
         keys = pg.key.get_pressed()  # checking pressed keys

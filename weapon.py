@@ -1,7 +1,4 @@
 import pygame as pg
-from settings import *
-import os
-import math
 
 class Weapon(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):

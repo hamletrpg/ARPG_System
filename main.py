@@ -18,8 +18,6 @@ class Game:
 
         self.all_sprites.add(self.enemy)
         self.all_sprites.add(self.player)
-
-
         self.run()
 
     def run(self):
@@ -39,6 +37,7 @@ class Game:
             if event.type == pg.QUIT:
                 self.playing = False
             self.running = False
+            self.player.use_weapon(event)
 
     def draw(self):
         self.screen.fill(BLACK)
